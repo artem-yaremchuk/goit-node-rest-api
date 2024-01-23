@@ -13,7 +13,8 @@ async function listContacts() {
 
     return dataArr;
   } catch (err) {
-    throw HttpError(500);
+    console.log(err);
+    throw HttpError(500, "Error reading or writing contacts file");
   }
 }
 
@@ -25,7 +26,7 @@ async function getContactById(contactId) {
 
     return dataArr.find((contact) => contact.id === contactId) || null;
   } catch (err) {
-    throw HttpError(500);
+    throw HttpError(500, "Error reading or writing contacts file");
   }
 }
 
@@ -47,7 +48,7 @@ async function removeContact(contactId) {
 
     return removedContact;
   } catch (err) {
-    throw HttpError(500);
+    throw HttpError(500, "Error reading or writing contacts file");
   }
 }
 
@@ -62,7 +63,7 @@ async function addContact(name, email, phone) {
 
     return dataArr[dataArr.length - 1];
   } catch (err) {
-    throw HttpError(500);
+    throw HttpError(500, "Error reading or writing contacts file");
   }
 }
 

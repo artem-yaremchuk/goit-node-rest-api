@@ -16,11 +16,7 @@ import {
 export const getAllContacts = catchAsync(async (req, res) => {
   const contacts = await listContacts();
 
-  res.status(200).json({
-    data: {
-      contacts,
-    },
-  });
+  res.status(200).json(contacts);
 });
 
 export const getOneContact = catchAsync(async (req, res) => {
@@ -29,9 +25,7 @@ export const getOneContact = catchAsync(async (req, res) => {
 
   if (!contact) throw HttpError(404);
 
-  res.status(200).json({
-    data: { contact },
-  });
+  res.status(200).json(contact);
 });
 
 export const deleteContact = catchAsync(async (req, res) => {
@@ -40,9 +34,7 @@ export const deleteContact = catchAsync(async (req, res) => {
 
   if (!removedContact) throw HttpError(404);
 
-  res.status(200).json({
-    data: { removedContact },
-  });
+  res.status(200).json(removedContact);
 });
 
 export const createContact = catchAsync(async (req, res) => {
@@ -54,9 +46,7 @@ export const createContact = catchAsync(async (req, res) => {
 
   const newContact = await addContact(name, email, phone);
 
-  res.status(201).json({
-    data: { newContact },
-  });
+  res.status(201).json(newContact);
 });
 
 export const updateOneContact = catchAsync(async (req, res) => {
@@ -73,7 +63,5 @@ export const updateOneContact = catchAsync(async (req, res) => {
 
   if (!updatedContact) throw HttpError(404);
 
-  res.status(200).json({
-    data: { updatedContact },
-  });
+  res.status(200).json(updatedContact);
 });

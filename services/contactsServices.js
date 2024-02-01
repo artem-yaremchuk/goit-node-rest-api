@@ -1,50 +1,29 @@
-import { promises as fs } from "fs";
-import { join } from "path";
-import { nanoid } from "nanoid";
 import HttpError from "../helpers/HttpError.js";
-
-const contactsPath = join("db", "contacts.json");
+import { Contact } from "../models/contactModel.js";
 
 async function listContacts() {
   try {
-    const readJsonResult = await fs.readFile(contactsPath);
-
-    const dataArr = JSON.parse(readJsonResult);
-
-    return dataArr;
-  } catch (err) {
-    console.log(err);
-    throw HttpError(500, "Error reading or writing contacts file");
-  }
-}
-
-async function getContactById(contactId) {
-  try {
-    const readJsonResult = await fs.readFile(contactsPath);
-
-    const dataArr = JSON.parse(readJsonResult);
-
-    return dataArr.find((contact) => contact.id === contactId) || null;
+    const contacts = await Contact.find();
+    
+    return contacts;
   } catch (err) {
     throw HttpError(500, "Error reading or writing contacts file");
   }
 }
 
-async function removeContact(contactId) {
+async function getContactById(id) {
   try {
-    const readJsonResult = await fs.readFile(contactsPath);
+    const contact = Contact.findById(id);
 
-    const dataArr = JSON.parse(readJsonResult);
-    const index = dataArr.findIndex((contact) => contact.id === contactId);
+    return contact;
+  } catch (err) {
+    throw HttpError(500, "Error reading or writing contacts file");
+  }
+}
 
-    if (index === -1) {
-      return null;
-    }
-
-    const removedContact = dataArr[index];
-    dataArr.splice(index, 1);
-
-    await fs.writeFile(contactsPath, JSON.stringify(dataArr));
+async function removeContact(id) {
+  try {
+    const removedContact = Contact.findByIdAndDelete(id);
 
     return removedContact;
   } catch (err) {
@@ -52,16 +31,11 @@ async function removeContact(contactId) {
   }
 }
 
-async function addContact(name, email, phone) {
+async function addContact(value) {
   try {
-    const readJsonResult = await fs.readFile(contactsPath);
+    const newContact = await Contact.create(value);
 
-    const dataArr = JSON.parse(readJsonResult);
-    dataArr.push({ id: nanoid(), name, email, phone });
-
-    await fs.writeFile(contactsPath, JSON.stringify(dataArr));
-
-    return dataArr[dataArr.length - 1];
+    return newContact;
   } catch (err) {
     throw HttpError(500, "Error reading or writing contacts file");
   }
@@ -69,24 +43,25 @@ async function addContact(name, email, phone) {
 
 async function updateContact(id, value) {
   try {
-    const readJsonResult = await fs.readFile(contactsPath);
-
-    const dataArr = JSON.parse(readJsonResult);
-    const index = dataArr.findIndex((contact) => contact.id === id);
-
-    if (index === -1) {
-      return null;
-    }
-
-    const updatedContact = { ...dataArr[index], ...value };
-    
-    dataArr.splice(index, 1, updatedContact);
-
-    await fs.writeFile(contactsPath, JSON.stringify(dataArr));
+    const updatedContact = Contact.findByIdAndUpdate({ _id: id }, value, {
+      new: true,
+    });
 
     return updatedContact;
   } catch (err) {
-    throw HttpError(500);
+    throw HttpError(500, "Error reading or writing contacts file");
+  }
+}
+
+async function updateStatusContact(id, value) {
+  try {
+    const updatedStatusContact = Contact.findByIdAndUpdate({ _id: id }, value, {
+      new: true,
+    });
+
+    return updatedStatusContact;
+  } catch (err) {
+    throw HttpError(500, "Error reading or writing contacts file");
   }
 }
 
@@ -96,4 +71,5 @@ export {
   removeContact,
   addContact,
   updateContact,
+  updateStatusContact,
 };

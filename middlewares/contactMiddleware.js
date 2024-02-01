@@ -25,6 +25,10 @@ export const checkCreateContactData = catchAsync(async (req, res, next) => {
 });
 
 export const checkUpdateContactData = (req, res, next) => {
+  const { name, email, phone } = req.body;
+  if (!name && !email && !phone)
+    throw HttpError(400, "Body must have at least one field");
+
   const { value, error } = updateContactDataValidator(req.body);
 
   if (error) throw HttpError(400, error.message);

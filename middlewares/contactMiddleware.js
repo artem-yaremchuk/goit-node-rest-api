@@ -14,11 +14,6 @@ export const checkCreateContactData = catchAsync(async (req, res, next) => {
 
   if (error) throw HttpError(400, error.message);
 
-  const contactExists = await Contact.exists(value);
-
-  if (contactExists)
-    throw HttpError(409, "Contact with this data already exists.");
-
   req.body = value;
 
   next();

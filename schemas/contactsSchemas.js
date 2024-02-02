@@ -5,7 +5,6 @@ export const createContactSchema = Joi.object({
     "string.empty": "Name cannot be empty",
     "string.min": "Name must be at least {#limit} characters long",
     "string.max": "Name must not be more than {#limit} characters long",
-    "string.required": "Name is required",
     "any.required": "Name is required",
   }),
   email: Joi.string()
@@ -40,5 +39,12 @@ export const updateContactSchema = Joi.object({
   phone: Joi.string().trim().min(10).max(14).messages({
     "string.min": "Phone number must be at least {#limit} digits long",
     "string.max": "Phone number must not be more than {#limit} digits long",
+  }),
+});
+
+export const updateStatusContactSchema = Joi.object({
+  favorite: Joi.boolean().required().messages({
+      "any.required": "Favorite is required",
+      "boolean.base": "Favorite must be a boolean value",
   }),
 });

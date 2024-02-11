@@ -34,9 +34,9 @@ export const getCurrentUser = (req, res) => {
 };
 
 export const logoutUser = catchAsync(async (req, res) => {
-  const { id } = req.user;
+  const { _id } = req.user;
 
-  await User.findByIdAndUpdate(id, { token: "" });
+  await User.findByIdAndUpdate(_id, { token: "" });
 
   res.status(204);
 });

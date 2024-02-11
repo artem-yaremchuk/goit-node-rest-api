@@ -9,7 +9,7 @@ import {
   updateStatusContactValidator,
 } from "../helpers/contactValidators.js";
 
-export const checkCreateContactData = catchAsync(async (req, res, next) => {
+export const checkCreateContactData = (req, res, next) => {
   const { value, error } = createContactDataValidator(req.body);
 
   if (error) throw HttpError(400, error.message);
@@ -17,7 +17,7 @@ export const checkCreateContactData = catchAsync(async (req, res, next) => {
   req.body = value;
 
   next();
-});
+};
 
 export const checkUpdateContactData = (req, res, next) => {
   const { name, email, phone } = req.body;

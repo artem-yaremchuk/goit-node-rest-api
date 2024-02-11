@@ -7,9 +7,17 @@ import {
   updateOneContact,
   updateStatus,
 } from "../controllers/contactsControllers.js";
-import { checkCreateContactData, checkUpdateContactData, checkUpdateStatus, checkContactId } from "../middlewares/contactMiddleware.js";
+import {
+  checkCreateContactData,
+  checkUpdateContactData,
+  checkUpdateStatus,
+  checkContactId,
+} from "../middlewares/contactMiddleware.js";
+import { protect } from "../middlewares/authMiddleware.js";
 
 const contactsRouter = express.Router();
+
+contactsRouter.use(protect);
 
 contactsRouter.use("/:id", checkContactId);
 

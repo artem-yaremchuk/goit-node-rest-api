@@ -1,9 +1,18 @@
 import { Contact } from "../models/contactModel.js";
 
-async function listContacts(owner) {
-  const contacts = await Contact.find({ owner });
+async function listContacts(query, owner) {
+  const page = query.page ? +query.page : 1;
+  const limit = query.limit ? +query.limit : 5;
+  const docsToSkip = (page - 1) * limit;
 
-  return contacts;
+  const filter = { owner };
+
+  if (query.favorite) filter.favorite = query.favorite;
+
+  const contacts = await Contact.find(filter).skip(docsToSkip).limit(limit);
+  const total = await Contact.countDocuments(filter);
+
+  return { total, contacts };
 }
 
 async function getContactById(id) {

@@ -12,6 +12,7 @@ import {
   checkUpdateContactData,
   checkUpdateStatus,
   checkContactId,
+  checkOwner,
 } from "../middlewares/contactMiddleware.js";
 import { protect } from "../middlewares/authMiddleware.js";
 
@@ -20,6 +21,8 @@ const contactsRouter = express.Router();
 contactsRouter.use(protect);
 
 contactsRouter.use("/:id", checkContactId);
+
+contactsRouter.use("/:id", checkOwner);
 
 contactsRouter.get("/", getAllContacts);
 

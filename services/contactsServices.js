@@ -1,31 +1,31 @@
 import { Contact } from "../models/contactModel.js";
 
-async function listContacts() {
-  const contacts = await Contact.find();
+async function listContacts(owner) {
+  const contacts = await Contact.find({ owner });
 
   return contacts;
 }
 
 async function getContactById(id) {
-  const contact = Contact.findById(id);
+  const contact = await Contact.findById(id);
 
   return contact;
 }
 
 async function removeContact(id) {
-  const removedContact = Contact.findByIdAndDelete(id);
+  const removedContact = await Contact.findByIdAndDelete(id);
 
   return removedContact;
 }
 
-async function addContact(contactData) {
-  const newContact = await Contact.create(contactData);
+async function addContact(contactData, owner) {
+  const newContact = await Contact.create({ ...contactData, owner });
 
   return newContact;
 }
 
 async function updateContact(id, contactData) {
-  const updatedContact = Contact.findByIdAndUpdate({ _id: id }, contactData, {
+  const updatedContact = await Contact.findByIdAndUpdate(id, contactData, {
     new: true,
   });
 
@@ -33,12 +33,10 @@ async function updateContact(id, contactData) {
 }
 
 async function updateStatusContact(id, contactStatus) {
-  const updatedStatusContact = Contact.findByIdAndUpdate(
-    { _id: id },
+  const updatedStatusContact = await Contact.findByIdAndUpdate(
+    id,
     contactStatus,
-    {
-      new: true,
-    },
+    { new: true },
   );
 
   return updatedStatusContact;

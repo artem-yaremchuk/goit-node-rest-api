@@ -56,3 +56,14 @@ export const checkContactId = catchAsync(async (req, res, next) => {
 
   next();
 });
+
+export const checkOwner = catchAsync(async (req, res, next) => {
+  const { id } = req.params;
+  const owner = req.user;
+
+  const contactExists = await Contact.exists({ _id: id, owner });
+
+  if (!contactExists) throw HttpError(404);
+
+  next();
+});

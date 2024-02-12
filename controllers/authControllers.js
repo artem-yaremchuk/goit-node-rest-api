@@ -38,5 +38,5 @@ export const logoutUser = catchAsync(async (req, res) => {
 
   await User.findByIdAndUpdate(_id, { token: "" });
 
-  res.status(204);
+  res.status(204).send();
 });

@@ -32,9 +32,7 @@ export const deleteContact = catchAsync(async (req, res) => {
 export const createContact = catchAsync(async (req, res) => {
   const newContact = await addContact(req.body, req.user);
 
-  const { id, name, email, phone } = newContact;
-
-  res.status(201).json({ id, name, email, phone });
+  res.status(201).json(newContact);
 });
 
 export const updateOneContact = catchAsync(async (req, res) => {

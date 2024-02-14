@@ -9,7 +9,7 @@ import {
   updateStatusContactValidator,
 } from "../helpers/contactValidators.js";
 
-export const checkCreateContactData = catchAsync(async (req, res, next) => {
+export const checkCreateContactData = (req, res, next) => {
   const { value, error } = createContactDataValidator(req.body);
 
   if (error) throw HttpError(400, error.message);
@@ -17,7 +17,7 @@ export const checkCreateContactData = catchAsync(async (req, res, next) => {
   req.body = value;
 
   next();
-});
+};
 
 export const checkUpdateContactData = (req, res, next) => {
   const { name, email, phone } = req.body;
@@ -51,6 +51,17 @@ export const checkContactId = catchAsync(async (req, res, next) => {
   if (!isIdValid) throw HttpError(400, "Your Id is not valid");
 
   const contactExists = await Contact.exists({ _id: id });
+
+  if (!contactExists) throw HttpError(404);
+
+  next();
+});
+
+export const checkOwner = catchAsync(async (req, res, next) => {
+  const { id } = req.params;
+  const owner = req.user;
+
+  const contactExists = await Contact.exists({ _id: id, owner });
 
   if (!contactExists) throw HttpError(404);
 

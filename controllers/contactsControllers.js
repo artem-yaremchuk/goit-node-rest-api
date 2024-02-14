@@ -10,9 +10,9 @@ import {
 import catchAsync from "../helpers/catchAsync.js";
 
 export const getAllContacts = catchAsync(async (req, res) => {
-  const contacts = await listContacts();
+  const { total, contacts } = await listContacts(req.query, req.user);
 
-  res.status(200).json(contacts);
+  res.status(200).json({ total, contacts });
 });
 
 export const getOneContact = catchAsync(async (req, res) => {
@@ -30,7 +30,7 @@ export const deleteContact = catchAsync(async (req, res) => {
 });
 
 export const createContact = catchAsync(async (req, res) => {
-  const newContact = await addContact(req.body);
+  const newContact = await addContact(req.body, req.user);
 
   res.status(201).json(newContact);
 });

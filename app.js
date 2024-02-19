@@ -41,6 +41,6 @@ app.use((err, req, res, next) => {
 
 const port = process.env.PORT;
 
-app.listen(port, () => {
+export default app.listen(port, () => {
   console.log(`Server is running. Use our API on port: ${port}`);
 });

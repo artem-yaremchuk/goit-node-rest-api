@@ -1,8 +1,10 @@
 {
   "name": "goit-node-rest-api",
   "scripts": {
+    "test": "jest",
     "start": "node ./app.js",
-    "dev": "nodemon ./app.js"
+    "dev": "nodemon ./app.js",
+    "build": "babel src --out-dir dist"
   },
   "type": "module",
   "dependencies": {
@@ -21,6 +23,10 @@
     "uuid": "^9.0.1"
   },
   "devDependencies": {
-    "nodemon": "^3.0.2"
+    "@babel/core": "^7.23.9",
+    "@babel/preset-env": "^7.23.9",
+    "jest": "^29.7.0",
+    "nodemon": "^3.0.2",
+    "supertest": "^6.3.4"
   }
 }

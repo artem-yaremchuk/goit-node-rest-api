@@ -1,5 +1,5 @@
 import catchAsync from "../helpers/catchAsync.js";
-import { signup, login } from "../services/usersServices.js";
+import { signup, login, updateAvatar } from "../services/usersServices.js";
 import { User } from "../models/userModel.js";
 
 export const registerUser = catchAsync(async (req, res) => {
@@ -39,4 +39,12 @@ export const logoutUser = catchAsync(async (req, res) => {
   await User.findByIdAndUpdate(_id, { token: "" });
 
   res.status(204).send();
+});
+
+export const updateUserAvatar = catchAsync(async (req, res) => {
+  const { avatarURL } = await updateAvatar(req.user, req.file);
+ 
+  res.status(200).json({
+    avatarURL,
+  });
 });

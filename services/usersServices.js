@@ -1,6 +1,7 @@
 import { User } from "../models/userModel.js";
 import { signToken } from "../services/jwtService.js";
 import HttpError from "../helpers/HttpError.js";
+import { ImageService } from "../services/imageService.js";
 
 async function signup(userData) {
   const newUser = await User.create(userData);
@@ -24,4 +25,20 @@ async function login({ email, password }) {
   return { email, token };
 }
 
-export { signup, login };
+async function updateAvatar(user, file) {
+  if (file) {
+    user.avatarURL = await ImageService.saveImage(
+      file,
+      {
+        maxFileSize: 2,
+        width: 250,
+        height: 250,
+      },
+      "avatars",
+    );
+  }
+
+  return user.save();
+}
+
+export { signup, login, updateAvatar };

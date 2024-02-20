@@ -27,6 +27,7 @@ app.use(express.json());
 
 app.use("/api/users", authRouter);
 app.use("/api/contacts", contactsRouter);
+app.use(express.static("public"));
 
 app.use((_, res) => {
   res.status(404).json({ message: "Route not found" });
@@ -40,6 +41,6 @@ app.use((err, req, res, next) => {
 
 const port = process.env.PORT;
 
-app.listen(port, () => {
+export default app.listen(port, () => {
   console.log(`Server is running. Use our API on port: ${port}`);
 });

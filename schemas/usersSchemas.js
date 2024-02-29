@@ -15,8 +15,20 @@ export const registerUserSchema = Joi.object({
   password: Joi.string().regex(PASSWD_REGEX).required().messages({
     "string.empty": "Password cannot be empty",
     "any.required": "Password is required",
-    "string.pattern.base": "Password must contain at least one lowercase letter, one uppercase letter, one digit, and one special character",
+    "string.pattern.base":
+      "Password must contain at least one lowercase letter, one uppercase letter, one digit, and one special character",
   }),
+});
+
+export const verifyUserSchema = Joi.object({
+  email: Joi.string()
+    .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
+    .required()
+    .messages({
+      "string.empty": "Email cannot be empty",
+      "string.email": "Enter a valid email address",
+      "any.required": "Email is required",
+    }),
 });
 
 export const loginUserSchema = Joi.object({

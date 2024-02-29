@@ -3,6 +3,7 @@ import catchAsync from "../helpers/catchAsync.js";
 import { User } from "../models/userModel.js";
 import {
   registerDataValidator,
+  verifyDataValidator,
   loginDataValidator,
 } from "../helpers/userValidators.js";
 import { checkToken } from "../services/jwtService.js";
@@ -17,6 +18,16 @@ export const checkRegisterData = catchAsync(async (req, res, next) => {
   if (user) {
     throw HttpError(409, "Email in use");
   }
+
+  req.body = value;
+
+  next();
+});
+
+export const checkVerifyData = catchAsync(async (req, res, next) => {
+  const { value, error } = verifyDataValidator(req.body);
+
+  if (error) throw HttpError(400, error.message);
 
   req.body = value;
 

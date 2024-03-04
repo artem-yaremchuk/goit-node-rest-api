@@ -32,7 +32,6 @@ app.use(express.static("public"));
 app.set('view engine', 'pug');
 app.set('views', 'views');
 
-
 app.use((_, res) => {
   res.status(404).json({ message: "Route not found" });
 });

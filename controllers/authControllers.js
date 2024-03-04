@@ -31,7 +31,6 @@ export const registerUser = catchAsync(async (req, res) => {
 
 export const verifyUser = catchAsync(async (req, res) => {
   const { verificationToken } = req.params;
-  console.log(req.params);
 
   await verify(verificationToken);
 

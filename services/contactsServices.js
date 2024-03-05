@@ -1,14 +1,16 @@
 import { Contact } from "../models/contactModel.js";
 
-async function listContacts(query, owner) {
+async function listContacts(query, ownerData) {
   const page = query.page ? +query.page : 1;
   const limit = query.limit ? +query.limit : 5;
   const docsToSkip = (page - 1) * limit;
 
+  const { _id: owner } = ownerData;
+
   const filter = { owner };
 
   if (query.favorite) filter.favorite = query.favorite;
-
+  
   const contacts = await Contact.find(filter).skip(docsToSkip).limit(limit);
   const total = await Contact.countDocuments(filter);
 
@@ -27,7 +29,9 @@ async function removeContact(id) {
   return removedContact;
 }
 
-async function addContact(contactData, owner) {
+async function addContact(contactData, ownerData) {
+  const { _id: owner } = ownerData;
+
   const newContact = await Contact.create({ ...contactData, owner });
 
   return newContact;

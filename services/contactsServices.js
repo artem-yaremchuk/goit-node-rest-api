@@ -11,7 +11,7 @@ async function listContacts(query, ownerData) {
 
   if (query.favorite) filter.favorite = query.favorite;
   
-  const contacts = await Contact.find(filter).skip(docsToSkip).limit(limit);
+  const contacts = await Contact.find(filter).sort({ createdAt: -1 }).skip(docsToSkip).limit(limit);
   const total = await Contact.countDocuments(filter);
 
   return { total, contacts };

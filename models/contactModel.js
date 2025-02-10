@@ -1,4 +1,5 @@
 import { model, Schema } from "mongoose";
+import moment from "moment-timezone";
 
 const contactSchema = new Schema(
   {
@@ -23,5 +24,7 @@ const contactSchema = new Schema(
   },
   { versionKey: false, timestamps: true },
 );
+
+contactSchema.index({ createdAt: -1 });
 
 export const Contact = model("Contact", contactSchema);

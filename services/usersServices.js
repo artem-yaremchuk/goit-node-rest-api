@@ -19,8 +19,11 @@ async function verify(verificationToken) {
 
   user.verificationToken = null;
   user.verify = true;
+  user.token = signToken(user.id);
 
-  return user.save();
+  await user.save();
+
+  return { email: user.email, token: user.token };
 }
 
 async function reverify({ email }) {

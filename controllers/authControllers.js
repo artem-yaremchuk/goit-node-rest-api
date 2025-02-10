@@ -14,7 +14,7 @@ export const registerUser = catchAsync(async (req, res) => {
   const { email, verificationToken } = newUser;
 
   try {
-    const url = `${req.protocol}://${req.get("host")}/users/verify/${verificationToken}`;
+    const url = `${req.protocol}://${req.get("host")}/api/users/verify/${verificationToken}`;
 
     await new Email(newUser, url).sendVerification();
   } catch (err) {
@@ -32,10 +32,15 @@ export const registerUser = catchAsync(async (req, res) => {
 export const verifyUser = catchAsync(async (req, res) => {
   const { verificationToken } = req.params;
 
-  await verify(verificationToken);
+  const { email, token } = await verify(verificationToken);
 
   res.status(200).json({
     message: "Verification successful",
+    token,
+    user: {
+      email,
+      subscription: "starter",
+    },
   });
 });
 

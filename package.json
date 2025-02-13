@@ -1,7 +1,7 @@
 {
   "name": "goit-node-rest-api",
   "scripts": {
-    "test": "jest",
+    "test": "jest --detectOpenHandles --forceExit",
     "start": "node ./app.js",
     "dev": "nodemon ./app.js",
     "build": "babel src --out-dir dist"

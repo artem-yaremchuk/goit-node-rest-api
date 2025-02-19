@@ -39,13 +39,13 @@ async function reverify({ email }) {
 async function login({ email, password }) {
   const user = await User.findOne({ email });
 
-  if (!user) throw HttpError(401, "Email or password is wrong");
+  if (!user) throw HttpError(401, "Invalid email address");
 
   if (!user.verify) throw HttpError(401, "User is not verified");
 
   const isPasswordValid = await user.checkPassword(password, user.password);
 
-  if (!isPasswordValid) throw HttpError(401, "Email or password is wrong");
+  if (!isPasswordValid) throw HttpError(401, "Invalid password");
 
   const token = signToken(user.id);
 

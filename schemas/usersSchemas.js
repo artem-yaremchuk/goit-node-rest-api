@@ -5,7 +5,10 @@ const PASSWD_REGEX =
 
 export const registerUserSchema = Joi.object({
   email: Joi.string()
-    .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
+    .email({
+      minDomainSegments: 2,
+      tlds: { allow: ["com", "net", "org", "ua", "gov", "edu", "io"] },
+    })
     .required()
     .messages({
       "string.empty": "Email cannot be empty",
@@ -22,7 +25,10 @@ export const registerUserSchema = Joi.object({
 
 export const verifyUserSchema = Joi.object({
   email: Joi.string()
-    .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
+    .email({
+      minDomainSegments: 2,
+      tlds: { allow: ["com", "net", "org", "ua", "gov", "edu", "io"] },
+    })
     .required()
     .messages({
       "string.empty": "Email cannot be empty",
@@ -33,7 +39,10 @@ export const verifyUserSchema = Joi.object({
 
 export const loginUserSchema = Joi.object({
   email: Joi.string()
-    .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
+    .email({
+      minDomainSegments: 2,
+      tlds: { allow: ["com", "net", "org", "ua", "gov", "edu", "io"] },
+    })
     .required()
     .messages({
       "string.empty": "Email cannot be empty",

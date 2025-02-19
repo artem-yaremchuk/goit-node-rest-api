@@ -50,7 +50,7 @@ export const reverifyUser = catchAsync(async (req, res) => {
   const { verificationToken } = user;
 
   try {
-    const url = `${req.protocol}://${req.get("host")}/users/verify/${verificationToken}`;
+    const url = `${req.protocol}://${req.get("host")}/api/users/verify/${verificationToken}`;
 
     await new Email(user, url).sendVerification();
   } catch (err) {

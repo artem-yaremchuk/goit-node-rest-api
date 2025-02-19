@@ -29,6 +29,8 @@ async function verify(verificationToken) {
 async function reverify({ email }) {
   const user = await User.findOne({ email });
 
+  if(!user) throw HttpError(404, "No user registered with the provided email address");
+
   if (user.verify) throw HttpError(400, "Verification has already been passed");
 
   return user;
